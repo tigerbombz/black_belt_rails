@@ -1,0 +1,24 @@
+<h1>Hi <%=@user.first_name%></h1>
+<table border="1" style="width:100%">
+  <tr>
+    <th>Product</th>
+    <th>Seller</th>
+    <th>Date Posted</th>
+    <th>Amount</th>
+    <th>Action</th>
+  </tr>
+  <% @shoes.each do |s| %>
+
+
+  <tr>
+    <td><%= s.product %></td>
+    <td><%= s.user_id %></td>
+    <td><%= s.created_at.strftime("%b/%d/%Y %I:%M:%p")%></td>
+    <td>$<%= s.amount %></td>
+    <td><a href="/users/<%=@user.id%>">Buy</a></td>
+    <% end %>
+
+  </tr>
+
+
+</table>

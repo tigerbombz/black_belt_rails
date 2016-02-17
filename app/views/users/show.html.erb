@@ -1,0 +1,84 @@
+<h1>Welcome, <%=@user.first_name%> <%=@user.last_name%></h1>
+<a href="/shoes">Go to All Products</a>
+<%= link_to "Logout", @session, method: :delete, id: @user.id%>
+
+<h4>Sell Product</h4>
+<%= form_for @shoe, :url => { controller: 'shoes', :action => "create" } do |f| %>
+  <%= f.label 'name' %>
+  <%= f.text_field :product %><br>
+  <%= f.label 'seller' %>
+  <%= f.text_field :seller %><br>
+  <%= f.label 'Amount' %>
+  <%=f.number_field :amount, :class => 'text_field', :step => 'any'%>
+  <%= submit_tag 'Sell' %>
+<% end %>
+<hr>
+
+<h4>Your products that are not yet sold:</h4>
+
+<table border="1" style="width:100%">
+  <tr>
+    <th>Product</th>
+    <th>Date Posted</th>
+    <th>Amount</th>
+    <th>Action</th>
+  </tr>
+  <% @shoes.each do |s|%>
+  <tr>
+  <td><%= s.product %></td>
+    <td><%= s.created_at.strftime("%b/%d/%Y %I:%M:%p")%></td>
+    <td>$<%= s.amount %></td>
+    <td><form action="/shoes/<%= s.id %>" method="post">
+        <input name="_method" type="hidden" value="delete"/>
+        <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+        <input type="submit" value="Remove">
+        </form>
+
+    </td>
+  </tr>
+  <% end %>
+</table>
+<hr>
+
+<h4>Sales</h4>
+
+<table border="1" style="width:100%">
+  <tr>
+    <th>Product</th>
+    <th>Date Posted</th>
+    <th>Amount</th>
+    <th>Action</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+<% @shoes_all.each do |s| %>
+
+  <h4>Total: <%=s.amount %></h4> <!-- tried to use .count or .total  or .sum but it didnt work  -->
+<% end %>
+<hr>
+
+<h4>Purchases</h4>
+<table border="1" style="width:100%">
+  <tr>
+    <th>Product</th>
+    <th>Date Posted</th>
+    <th>Amount</th>
+
+  </tr>
+  <% @shoes.each do |s| %>
+  <tr>
+  <td><%= s.product %></td>
+    <td><%= s.created_at.strftime("%b/%d/%Y %I:%M:%p")%></td>
+    <td>$<%= s.amount %></td>
+
+  </tr>
+  <% end %>
+ </table>
+<% @shoes.each do |t| %>
+<h1>Total Purchases <%= t.amount %></h1>
+
+<% end %>
